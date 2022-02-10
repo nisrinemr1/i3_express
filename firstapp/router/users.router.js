@@ -1,4 +1,4 @@
-//utilisation d'express
+//utilisation d'express!
 const express = require("express");
 const router = express.Router() //router d'Express donc il faut obligatiorement la majuscule
 
