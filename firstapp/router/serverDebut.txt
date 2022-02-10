@@ -1,0 +1,96 @@
+//herbergeur HEROKU https://www.heroku.com/
+// electron backend javascript! 
+//Dans le projet, on créer un npm init comme sur node!
+// mais maintenant a la place de mettre server il faudrait mettre app. 
+// on va aller chercher express! 
+// nodemon on l'a installer en global. Mais on ne fait pas avec express! Car si on le met en global, il ne va pas être dans le package JSON!
+// npm install express. De la sorte on l'installe en local. Si on ajoute -g ce sera en global. 
+// si jamais on rentre dans un projet, il faudra pas mettre des librairie à jour. Parce que ça prend du temps de mettre à jour des librairie ! du coup il faudra mettre comme commande: npm install express@3.1.0 qui date d'il y a 9 ans
+/* "dependencies": {
+    "express": "^4.17.2" */
+//Il a afficher en plus dans le package json la dépendence qui est express! 
+// en plus de cela il a ajouter le package-lock.json et là il ne faudra pas y toucher. Il repertorie le package express et toute les dépendence qu'express à besoin pour fonctionner. On pourra les retrouver dans le site d'express. Dans le site il y a les différentes dépendance qui elle-même des dependances ! 
+// ON NE TOUCHE PAS AU NODE_MODULES ON NE TRANSFERE JAMAIS LE NODE MODULE 
+// Si on l'ouvre dans un autre ordinateur, le projet ne fonctionnera. Il faudra juste faire un nouveau terminal et on refera un npm install et directement il remettra le node module automatiquement. 
+//pour recuperer express.
+const express = require("express"); //express est une fonction il le sait déjà. D'ou le changement de couleurs de const express.
+//créer une application express et CONVENTION!
+const app = express();
+//tout ça remplace ça 
+/* const http = require("http");
+const server = http.createServer((req,res)=>{}) */
+// et pour le faire lire sur le port 3000
+const port = process.env.PORT || 3000; //si le port est connu il prendra process.en.PORT (port 80) ou bien 3000
+//ceci est un developpement local. Pour faire un déploiement (qui est une bonne pratique)
+//d'abord, jamais mettre le port 3000 dans le app listen. 
+// Pour rendre compatible avec un ebergement, il faudra le faire spécifier soit dans le port 3000 soit dans le server que l'hebergeur demande. les hebergeur utilise PORT pour qu'il puisse 
+//on aura plus le req res. Donc il faudra ajouter des midleware
+
+//Création des urls! et on ne fait pas n'importement ! 
+/* 
+User 
+apprendre a construire une api rest des urls proprement et il y a une seule technique: La convention est : 
+    localhos:3000/api/users/      --> ce qui veut dire Get all users (recup tous les users)
+        on signal qu'on expose des données avec le /api. Qu'est-ce qu'on expose comme de donné? la collection des utilisateurs pas json car c'est le format. 
+
+    localhost:3000/api/users/:id --> Get one users by id (recupere un user)
+    localhost:3000/api/users/ -->    Post all users (ajouter un user)
+    localhost:3000/api/users/:id --> PUT  one user (modifier un user)
+    localhost:3000/api/users/:id --> DELETE one user (supprimer un user)
+
+    -------> CRUD Create Read Uptdate Delete
+    Mysql : Crud  insert into, select , update , delete
+*/
+
+
+
+
+ 
+
+//De la sort on va créer une api. permet de centralier l'aquisition et exposition des données qu'on a besoin pour notre site web. Toutes les méthode doivent prendre 2 paramètres! 
+
+
+//localhos:3000/api/users/
+app.get("/api/users", (req, res)=>{
+    //renvoie du json en api. Ceci est une bonne pratique 
+        res.json({
+            message: "Liste de tous les users"
+        })
+}); //demande resource
+
+
+//localhost:3000/api/users/:id --> Get one users by id (recupere un user)
+app.get("/api/users/:id", (req, res)=> {
+    console.log(req.params.id)
+    
+    res.json({
+        message: "Un seule user"
+    })
+}); //demande resource
+
+//localhost:3000/api/users/ -->    Post all users (ajouter un user)
+app.post("/api/users", (req, res)=>{
+    res.json({
+        message: "Création d'un user"
+    })
+}); //publier les resource
+
+
+//localhost:3000/api/users/:id --> PUT  one user (modifier un user)
+app.put("/api/users/:id", (req, res) =>{
+    res.json({
+        message: "Modification d'un user"
+    })
+}); //ajout de resource 
+
+//localhost:3000/api/users/:id --> DELETE one user (supprimer un user)
+app.delete("/api/users/:id", (req, res)=>{
+    res.json({
+        message: "Suppression d'un user"
+    })
+}); // supprimer des resource.
+
+
+
+app.listen(port, console.log(`Le serveur écoute sur le port ${port}`));
+//nodemon ne fonctionne pas hors global! Si on ne veut pas utiliser nodemon, on ferais npm start!
